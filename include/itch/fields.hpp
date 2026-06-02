@@ -1,6 +1,8 @@
 #pragma once
+#include <cstdint>
 
 namespace itch {
+
     enum class EventCode : char {
         StartOfMessages = 'O',
         StartOfSystemHours = 'S',

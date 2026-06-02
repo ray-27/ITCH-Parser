@@ -2,6 +2,8 @@
 #include "types.hpp"
 #include "fields.hpp"
 
+#include <variant>
+
 namespace itch {
 
     struct SystemEvent {
@@ -34,4 +36,11 @@ namespace itch {
         Alpha<8> stock;
         Price4 price;
     };
+
+    using ITCHMessage = std::variant<
+        SystemEvent,
+        StockDirectory,
+        AddOrder
+    >;
+
 }

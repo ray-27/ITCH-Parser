@@ -45,45 +45,32 @@ namespace itch {
 
 
 
-    enum class MessageType: uint8_t {
-        //System
-        SystemEvent = 'S',
-
-        //Stock Related Messages
-        StockDirectory = 'R',
-        StockTradingAction = 'H',
-        RegSHORestriction = 'Y',
-        MarketParticipantPos = 'L',
-
-        // Market---Wide Circuit Breaker (MWCB) Messaging
-        MWCBeclineLevel = 'V',
-        MWCBStatus = 'W',
-        IPOQuotingPeriod = 'K',
-        LULDAuctionCollar = 'J',
-        OperationalHalt = 'h',
-
-        //Add Order Message
-        AddOrder = 'A',
-        AddOrderMPID = 'F',
-
-        //Modify Order
-        OrderExecuted = 'E',
-        OrderExecutedWithPrice = 'C',
-        OrderCancel = 'X',
-        OrderDelete = 'D',
-        OrderReplace = 'U',
-
-        //Trades Messages
-        NonCrossTrade = 'P',
-        CrossTrade = 'Q',
-        BrokerTrade = 'B',
-
-        //Auction
-        NOII = 'I',
-        RPII = 'N',
-
-        //Diret listing
-        DirectListingCapRaise = 'O',
+    enum class MessageType : uint8_t {
+        SystemEvent                  = 'S',
+        StockDirectory               = 'R',
+        StockTradingAction           = 'H',
+        RegSHORestriction            = 'Y',
+        MarketParticipantPosition    = 'L',
+        MWCBDeclineLevel             = 'V',
+        MWCBStatus                   = 'W',
+        IPOQuotingPeriodUpdate       = 'K',
+        LULDAuctionCollar            = 'J',
+        OperationalHalt              = 'h',
+        AddOrder                     = 'A',
+        AddOrderMPID                 = 'F',
+        OrderExecuted                = 'E',
+        OrderExecutedWithPrice       = 'C',
+        OrderCancel                  = 'X',
+        OrderDelete                  = 'D',
+        OrderReplace                 = 'U',
+        NonCrossTrade                = 'P',
+        CrossTrade                   = 'Q',
+        BrokenTrade                  = 'B',
+        NOII                         = 'I',
+        RPII                         = 'N',
+        DirectListingCapitalRaise    = 'O',
     };
+
+
 
 }

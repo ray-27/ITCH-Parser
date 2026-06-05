@@ -1,2 +1,5 @@
 .clangd
 dump
+.cache
+build
+data

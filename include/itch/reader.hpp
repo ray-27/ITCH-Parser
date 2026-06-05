@@ -14,23 +14,30 @@ namespace itch {
 
             template<typename Handler>
             size_t run(Handler&& handler) {
+                // Local variables let the compiler keep both pointers in
+                // registers for the entire loop without aliasing concerns
+                // from the [&] lambda capture of `this`.
+                const uint8_t* __restrict__ cur = cursor_;
+                const uint8_t* const        end = end_;
                 size_t count = 0;
 
-                while(cursor_ + 2 <= end_) {
-                    // Prefetch ~512 bytes ahead into L2 cache. Memory latency
-                    // is ~80-100 ns; at target throughput that covers ~15 msgs.
-                    __builtin_prefetch(cursor_ + 512, 0, 1);
+                while (cur + 2 <= end) {
+                    __builtin_prefetch(cur + 512, 0, 1);
 
-                    uint16_t msg_len = (static_cast<uint16_t>(cursor_[0]) << 8) | static_cast<uint16_t>(cursor_[1]);
-                    cursor_ += 2;
+                    uint16_t msg_len = (static_cast<uint16_t>(cur[0]) << 8)
+                                     |  static_cast<uint16_t>(cur[1]);
+                    cur += 2;
 
-                    if(cursor_ + msg_len > end_) break;
+                    // Only fires once at EOF — never taken in the hot loop.
+                    if (__builtin_expect(cur + msg_len > end, 0)) break;
 
-                    dispatch(cursor_, msg_len, handler);
+                    dispatch(cur, msg_len, handler);
 
-                    cursor_ += msg_len;
+                    cur += msg_len;
                     ++count;
                 }
+
+                cursor_ = cur;
                 return count;
             }
     };
